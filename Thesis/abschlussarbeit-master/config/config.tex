@@ -1,0 +1,197 @@
+% Zeilenabstand einstellen
+\usepackage{setspace}
+\setstretch{1.2}
+
+%Serifenbehaftete Schrift für Überschriften
+\setkomafont{sectioning}{\normalfont\normalcolor\bfseries}
+
+%Serifenlose Schrift (beides einkommentieren)
+%\renewcommand{\familydefault}{\sfdefault}
+%\renewcommand{\sfdefault}{jkpss}
+
+%Einstellungen für Farben
+\definecolor{halfgray}{gray}{0.55}			% this color is necessary for the layout
+%\definecolor{lightgray}{rgb}{0.7, 0.7, 0.7}
+%\definecolor{lightergray}{rgb}{0.85, 0.85, 0.85}
+%\definecolor{lightred}{rgb}{1.0, 0.5, 0.5}
+\definecolor{linkcolor}{rgb}{0,0.3137,0.6078}	% LUH Blue
+%\definecolor{linkcolor}{rgb}{0,0,0}				% Black
+
+
+%Einzug neuer Absaetze
+%\setlength\parindent{1cm}
+
+%Einstellungen für Listings
+\lstset{%
+	basicstyle=\small\normalfont\hyphenchar\font\m@ne\@noligs,
+	frame=single,
+	captionpos=b,
+	lineskip=-1pt,
+	basewidth=0.5em,
+	breaklines,
+	aboveskip=20pt,
+	belowskip=\medskipamount%
+}
+
+%Anklickbares Verzeichnis für PDF
+\hypersetup{%
+   pdftitle={\documenttitle},
+   pdfsubject={\documentsubject},
+   pdfkeywords={\documentkeywords},
+   pdfauthor={\textcopyright~\documentauthor},
+   colorlinks=true,
+   linkcolor=linkcolor,
+   citecolor=linkcolor,
+   urlcolor=linkcolor,
+   bookmarksnumbered,
+   bookmarksopen=true,
+   bookmarksopenlevel=1,
+   %Test
+   plainpages=false,
+%   pdfpagelabels,
+   hypertexnames=false % true,
+%	linktocpage=true,
+%	pdfstartview=FitV,
+%	breaklinks=true,
+%	pageanchor=true,
+%	pageanchor=true,
+%	pdfpagemode=UseOutlines,
+%	pdfhighlight=/O,
+}
+
+% -----------------------------------------------------------------------------
+% Microtype
+% (siehe www.khirevich.com/latex/microtype)
+%
+\usepackage[
+activate={true,nocompatibility},                                              % activate protrusion and expansion
+final,                                                                        % enable microtype; use "draft" to disable
+tracking=true,                                                                % activate tracking
+kerning=true,                                                                 % activate kerning
+spacing=true,                                                                 % activate spacing
+factor=1100,                                                                  % add 10% to the protrusion amount (default is 1000)
+stretch=10,                                                                   % reduce stretchability (default is 20)
+shrink=10,                                                                    % reduce shrinkability (default is 20)
+]{microtype}
+%
+\SetExtraKerning[unit=space]
+{
+	encoding={*},
+	family={bch},
+	series={*},
+	size={footnotesize,small,normalsize}
+}
+{
+	\textendash={400,400},                                                      % en-dash, add more space around it
+	"28={ ,150},                                                             % left bracket, add space from right
+	"29={150, },                                                             % right bracket, add space from left
+	\textquotedblleft={ ,150},                                               % left quotation mark, space from right
+	\textquotedblright={150, }                                               % right quotation mark, space from left
+}
+%
+% -----------------------------------------------------------------------------
+
+
+% -----------------------------------------------------------------------------
+% Formatieren des Seitenlayouts:
+% ************************************************************
+% Fancy stuff (arsclassica)
+% ************************************************************
+\SetTracking[context=trackinglarge]{encoding = *}{160}                          % Definiere Kontext: 160er tracking
+\SetTracking[context=trackingsmall]{encoding = *}{80}                           % Definiere Kontext: 80er tracking
+%
+\DeclareRobustCommand{\spacedallcaps}[1]{%                                      % Capitals (uppercase) mit 160er spacing
+	\microtypesetup{expansion=false}%
+	\fontfamily{jkpss}\lsstyle\microtypecontext{tracking=trackingsmall}%
+	\MakeTextUppercase{#1}%
+}
+\DeclareRobustCommand{\spacedlowsmallcaps}[1]{%                                 % Capitals (lowercase) mit 80er spacing
+	\microtypesetup{expansion=false}%
+	\fontfamily{jkpss}\lsstyle\microtypecontext{tracking=trackingsmall}%
+	\fontshape{sc}\selectfont\MakeTextLowercase{#1}%
+}
+
+% ************************************************************
+% Headlines (arsclassica)
+% ************************************************************
+%\usepackage[automark]{scrpage2}
+\clearmainofpairofpagestyles
+\renewcommand{\chaptermark}[1]{%                                               % Kapitelname ohne Nummer, in small caps
+	\markleft{{\spacedlowsmallcaps{#1}}}
+	\markright{{\spacedlowsmallcaps{#1}}} %Also set on the right side til it is overwritten by sectionmark
+}
+%%
+\renewcommand{\sectionmark}[1]{\markright{%                                     % Sectionname mit Nummer, in small caps
+		{{\small\thesection} \spacedlowsmallcaps{#1}}%
+}}
+
+%
+\lehead{\mbox{%                                                                 % Header oben links: Seitenzahl, vert. Linie, Kapitelname
+		\llap{\small\pagemark\kern1em\color{halfgray}\vline}%
+		\color{halfgray}\hspace{0.5em}\headmark\hfil%
+}}
+%
+\rohead{\mbox{%                                                                 % Header oben rechts: Section, vert. Linie, Seitenzahl
+		\hfil{\color{halfgray}\headmark\hspace{0.5em}}%
+		\rlap{\small{\color{halfgray}\vline}\kern1em\pagemark}%
+}}
+%
+\ofoot[\relax]{%                                                                % Keine Seitenzahlen in Fußzeile,
+	\relax%                                                                       % auch nicht bei Kapitelanfang
+}
+%
+\setkomafont{pageheadfoot}{%                                                    % Schriftart für Header-Text
+	\normalfont\fontfamily{jkpss}\fontshape{sc}\selectfont%
+}
+%
+\setkomafont{pagenumber}{%                                                      % Schriftart für Seitenzahlen
+	\normalfont\small\fontfamily{jkpss}\selectfont%
+}
+%
+%************************************************************
+% Layout of the chapter-, section-, subsection-,
+% subsubsection-, paragraph and description-headings (arsclassica)
+%************************************************************
+
+\newfont{\chapterNumber}{eurb10 scaled 5000}                                    % Lade skalierte Euler-Font für Kapitelnummer
+%
+\renewcommand*{\chapterformat}{%                                                % Große graue Euler-Kapitelnummer mit vert. Linie
+	{%
+		\color{halfgray}%
+		\chapterNumber\thechapter%
+	}%
+	\hspace{15pt}\smash{\protect\rule[-7pt]{0.5pt}{42pt}}\hspace{15pt}%
+}
+%
+\renewcommand*{\othersectionlevelsformat}[3]{%                                  % Stil der Abschnittsnummerierung
+	\fontfamily{jkpss}\fontshape{sc}\selectfont%
+	\MakeTextLowercase{%
+		#3\autodot\enskip
+	}%
+}
+%
+\setkomafont{chapter}{%                                                         % Stil der Kapitelüberschriften
+	\microtypecontext{tracking=trackinglarge}%
+	\normalfont\Large\fontfamily{jkpss}%
+	\lsstyle%
+	%\MakeTextUppercase%
+}
+%
+\setkomafont{section}{%                                                         % Stil der Sectionüberschriften
+	\microtypecontext{tracking=trackingsmall}%
+	\normalfont\Large\fontfamily{jkpss}\fontshape{sc}\selectfont%
+	\lsstyle%
+	% \lowercase%           <-- This would break UTF-8 chars...
+}
+%
+\setkomafont{subsection}{%                                                      % Stil der Subsectionüberschriften
+	\normalfont\normalsize\fontfamily{jkpss}\selectfont%
+}
+%
+\setkomafont{subsubsection}{%                                                   % Stil der Subsubsectionüberschriften
+	\normalfont\normalsize\itshape\fontfamily{jkpss}\selectfont%
+}
+%
+\setkomafont{paragraph}{%                                                       % Stil der Paragraphüberschriften
+	\normalfont\normalsize\bfseries\fontfamily{jkpss}\selectfont%
+}

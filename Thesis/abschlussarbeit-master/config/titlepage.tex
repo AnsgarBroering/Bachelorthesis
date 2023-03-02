@@ -1,0 +1,40 @@
+\begin{titlepage}
+\newgeometry{left=3cm,right=3cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UOL-Logo
+ \AddToShipoutPictureBG*{\AtPageUpperRight{\raisebox{-3.6cm}{\includegraphics[width=167px]{images/des_logo}\hspace{2cm}}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DES-Logo
+\AddToShipoutPictureBG*{\AtPageUpperLeft{\raisebox{-3.6cm}{\hspace{2cm}\includegraphics[width=110px,clip]{images/uol_logo}}}}
+
+
+\begin{center}
+\vspace*{4cm}
+
+   %\begin{figure}[h]
+   %		\centering
+   %		\includegraphics[height=4cm]{images/welfenschloss_vektor}
+   %\end{figure}
+
+    {\large \textsc{\documentuniversity}}\\
+    {\large \textsc{\documentinstitute}} \\[1.2cm]
+	
+    {\LARGE{\textbf{\documenttitle}}} \\[1.2cm]
+    {\Large{\textbf{\documenttype}}} \\[0.4cm]
+    %\textnormal{\iflanguage{ngerman}{zur Erlangung des akademischen Grades "`\documentgrade"' im Studiengang \documentcourse ~der \documentfaculties}{to reach the academic degree "\documentgrade" in major \documentcourse ~ at the\documentfaculties}} \\ [0.4cm]
+
+	\iflanguage{ngerman}{vorgelegt von}{submitted by} \\ [0.4cm]
+    {\Large \textbf{\documentauthor}} \\ [0.4cm]
+    \iflanguage{ngerman}{Geboren am {\documentauthorbirthday} in {\documentauthorbirthplace} }{born on {\documentauthorbirthday} in {\documentauthorbirthplace} } \\ [2cm]
+
+    \begin{tabular}{ll}%rl
+      \iflanguage{ngerman}{Erstprüferin:}{First Examiner:}  		& \documenttutori \\
+      \iflanguage{ngerman}{Zweitprüfer:}{Second Examiner:}  		& \documenttutorii \\
+      \iflanguage{ngerman}{Betreuer:}{Supervisor:}    		& \documentsupervisor \\
+    \end{tabular} \\ [1.2cm]
+
+    \large{\textnormal{\documentlocation, \iflanguage{ngerman}{den \documentdate}{\documentdate}}}
+\end{center}
+
+\restoregeometry
+\end{titlepage}

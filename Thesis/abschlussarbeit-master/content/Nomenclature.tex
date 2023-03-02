@@ -1,0 +1,18 @@
+\newcommand{\nomTitle}{\iflanguage{ngerman}{Formelzeichen}{Nomenclature}} % is used as title of the chapter and for the table of contents
+
+\chapter*{\nomTitle}
+\addcontentsline{toc}{chapter}{\nomTitle}
+%
+In der Arbeit verwendete Formelzeichen, Symbole und Indizes sind tabellarisch aufzulisten. Die Reihenfolge ist alphabetisch, getrennt nach lateinischen und griechischen Buchstaben. Je nach Art der Arbeit, ist ggf. auch eine weitere Trennung nach hochgestellten/tiefgestellten Indizes, skalaren/vektoriellen Größen usw. sinnvoll. Weiterhin kann es sinnvoll sein spezielle packages für die Erstellung des Formelzeichenverzeichnisses zu verwenden, ähnlich wie für Abkürzungen.
+
+\begin{acronym}[Formelzeichen]
+	% sorting in alphabetical order manually!!!
+	
+	\acro{pi}[\ensuremath{\pi}]{Die Zahl Pi}
+	\acro{alpha}[\ensuremath{\alpha}]{Das Symbol alpha}
+
+	
+\end{acronym}
+
+
+\newpage

@@ -1,0 +1,189 @@
+
+% -----------------------------------------------------------------------------
+% Entwurfsmodus
+%
+\KOMAoption{draft}{false}                                                       % Entwurfsmodus?
+\def\printversion{false}                                                        % Printversion (alle Hyperlinks schwarz-weiß)?
+\def\versionlabel{true}                                                         % Versionsangabe im footer?
+%
+%
+\usepackage{scrtime}
+\usepackage{ifthen}
+\newboolean{printversion}
+\setboolean{printversion}{\printversion}
+%
+\newcommand{\finalVersionString}{}
+\ifthenelse{\boolean{\versionlabel}}{%
+  \usepackage[draft]{prelim2e}
+      \renewcommand{\PrelimWords}{\relax}
+      \renewcommand{\PrelimText}{%
+        \color{halfgray}\tiny[\,Version: \today, \thistime\ Uhr\,]%
+      }
+      \renewcommand{\finalVersionString}{Entwurf, \today}
+}{
+  \renewcommand{\finalVersionString}{Eingereichte Version, \today}
+}
+%
+% -----------------------------------------------------------------------------
+
+%
+% TODO: Der Durchschuss sollte für die Titelseite wieder auf den Normalwert
+% gesetzt werden, siehe scrguide S. 41 f.
+%
+
+
+% classicthesis & arsclassica
+%
+\usepackage{textcase}
+%
+% ************************************************************
+
+
+
+%
+%************************************************************
+% lists
+%************************************************************
+% \renewcommand\labelitemi{\color{halfgray}$\bullet$}                             % Semi-transparent bullet points
+% \let\oldlabelenumi\labelenumi
+% \renewcommand\labelenumi{\color{halfgray}\oldlabelenumi}                        % Semi-transparent numbers
+%
+%************************************************************
+% caption
+%************************************************************
+\addtokomafont{captionlabel}{\bfseries}                                         % Caption labels in bold face
+%
+% ***********************************************************
+% layout of the TOC, LOF and LOT (LOL-workaround see next section)
+% ***********************************************************
+% TODO (siehe classicthesis.sty)
+%
+% -----------------------------------------------------------------------------
+% Abbildungen
+%
+\setcapindent{1em}                                                              % Reduzierter hängender Einzug (siehe scrguide)
+% -----------------------------------------------------------------------------
+% Tabellen
+%
+\usepackage{array}                                                              % liefert \newcolumntype
+\usepackage{booktabs}                                                           % Typografisch korrekte Tabellen
+%
+% Guidelines:
+%
+% 1. Never, ever use vertical rules.
+% 2. Never use double rules.
+% 3. Put the units in the column heading (not in the body of the table).
+% 4. Always precede a decimal point by a digit; thus 0.1 not just .1.
+% 5. Do not use ‘ditto’ signs or any other such convention to repeat a previous
+%    value. In many circumstances a blank will serve just as well. If it won’t,
+%    then repeat the value.
+%
+% -----------------------------------------------------------------------------
+% Algorithmen + Code
+%
+% Das Paket 'algorithm' liefert die 'algorithm' Umgebung (floating)
+\usepackage{algorithm}
+\floatname{algorithm}{Algorithmus}
+\newcommand{\AND}{\textbf{and}}
+\newcommand{\OR}{\textbf{or}}
+%
+% Das Paket 'algpseudocode' wird benutzt, um *Algorithmen* zu formatieren.
+\usepackage{algpseudocode}
+%
+% Das Paket 'listings' wird benutzt, um *Quellcode* zu formatieren.
+\usepackage{listings}
+%
+% -----------------------------------------------------------------------------
+% Anführungszeichen
+%
+\usepackage[
+  strict,                                                                       % Warnungen werden als Fehler ausgegeben
+  babel                                                                         % Unterstützung für babel aktivieren
+]{csquotes}
+
+
+
+
+
+%========================Arash s Packete
+
+%the comming two packets are for checkmark 
+\usepackage{bbding}
+\usepackage{pifont}
+
+
+
+\usepackage{comment}
+
+\usepackage{acro}
+%for acronyms
+
+
+% -----------------------------------------------------------------------------
+% Weitere Pakete
+% \let\thesubfigureorig\thesubfigure                                              % Speichere aktuelles Format der Nummerierung
+\usepackage{amsthm}                                                             % verbessert \newtheorem, für thmtools
+\usepackage{mdframed}                                                           % Rahmen, für thmtools
+\usepackage{thmtools}                                                           % liefert \declaretheorem
+\usepackage{environ}
+%
+\usepackage{tikz}                                                               % Diagramme
+\usetikzlibrary{
+  trees,
+  positioning,
+  patterns,
+  calc,
+  intersections,
+  shapes,
+  arrows,
+  decorations.markings,
+  decorations.pathmorphing,
+  decorations.pathreplacing,
+}
+\usetikzlibrary{external}                                                       % Externalize TikZ images
+\tikzexternalize[prefix=images/,mode=list and make,optimize=false]
+%
+%
+% Key-Value system
+% http://tex.stackexchange.com/a/37113
+\newcommand{\setvalue}[1]{\pgfkeys{/variables, #1}}
+\newcommand{\getvalue}[1]{\pgfkeysvalueof{/variables/#1}}
+\newcommand{\declare}[1]{%
+ \pgfkeys{
+  /variables/#1.is family,
+  /variables/#1.unknown/.style = {\pgfkeyscurrentpath/\pgfkeyscurrentname/.initial = ##1}
+ }%
+}
+
+%
+%
+\usepackage[german,intoc,noprefix]{nomencl}
+\makenomenclature
+% Mehrere nomencl-Abschnitte:
+% http://www.mrunix.de/forums/showpost.php?p=210422&postcount=29
+\renewcommand{\nomname}{Akronyme}
+\renewcommand{\nompreamble}{\markboth{\nomname}{\nomname}}
+\renewcommand{\nomlabelwidth}{2.5cm}
+\newcommand{\nomaltname}{Symbole}
+\newcommand{\nomaltpreamble}{\markboth{\nomaltname}{\nomaltname}}
+\newcommand{\nomaltpostamble}{}
+\newcommand{\switchnomitem}{S}
+\renewcommand{\nomgroup}[1]{%
+  \ifthenelse{\equal{#1}{\switchnomitem}}{\switchnomalt}{}}
+\newcommand{\switchnomalt}{%
+  \end{thenomenclature}
+  \renewcommand{\nomname}{\nomaltname}
+  \renewcommand{\nompreamble}{\nomaltpreamble}
+  \renewcommand{\nompostamble}{\nomaltpostamble}
+  \begin{thenomenclature}
+}
+
+%
+%
+% Copy-Pasteable Listings
+% http://www.monperrus.net/martin/copy-pastable-listings-in-pdf-from-latex
+% http://tex.stackexchange.com/questions/4911/phantom-spaces-in-listings-pdf
+\usepackage[space=true]{accsupp}
+\newcommand{\copyablespace}{\BeginAccSupp{method=hex,unicode,ActualText=00A0}\ \EndAccSupp{}}
+%
+

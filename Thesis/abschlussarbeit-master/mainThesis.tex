@@ -1,0 +1,120 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Autor: 
+	% Christian Hinrichs, 2013--2015; 
+	% Arash Shahbakhsh, 2018, Anpassung LUH-EI; 
+	% Paul Hendrik Tiemann, 2018; 
+	% Stephan Ferenz 2019-2020
+	% Arash Shahbakhsh, Herbst 2020, Anpassung uol-des  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[
+11pt,                                                  % Schriftgroesse fuer Abschlussarbeiten: 11 pt (Vorgabe))
+BCOR=10mm,                                              % ca. 280 Seiten = 140 Blätter * 0.14 mm / 2 = Bindekorrektur 10 mm > will correct page margins!
+DIV=12,                                                % Textspiegel: Zwölferteilung (siehe Beschreibung KOMA-Script)
+twoside=true,                                          % Dokument zweiseitig setzen?
+headinclude=true,                                      % Kopfzeile zum Textkörper zählen?
+footinclude=false,                                     % Fußzeile zum Textkörper zählen?
+a4paper,                                               % Papierformat zur Berechnung des Satzspiegels
+pagesize=auto,                                         % Papierformat des Kompilates gemäß 'paper' setzen
+parskip=false,                                         % Absatzauszeichnung: 1 em Einzug, kein Abstand
+numbers=noenddot,                                      % Gliederungsnummern mit Punkt? (auto = Duden-Vorschrift)
+%Mapping=tex-text        
+cleardoublepage=empty,                                 % Vakatseiten komplett leer
+open=right,                                            % Kapitel immer auf rechter Doppelseite beginnen
+chapterprefix=false,                                   % Präfix "Kapitel 1" vor Kapitelüberschrift?
+appendixprefix=false,                                  % Präfix "Anhang A" vor Anhangüberschrift?
+numbers=noenddot,                                      % Gliederungsnummern mit Punkt? (auto = Duden-Vorschrift)
+% leqno,                                               % Gleichungen links statt rechts nummerieren
+fleqn,                                                 % Gleichungen linksbündig statt zentriert ausgeben
+toc=bib,                                               % Literaturverzeichnis im Inhaltsverzeichnis
+toc=listof,                                            % Abbildungs- und Tabellenverzeichnis (so vorhanden) im Inhaltsverzeichnis 
+]{scrreprt}                                            % scrreprt, da scrbook keine abstract-Umgebung hat
+
+% ----------------------------- Import settings -------------------------------
+
+\input{config/packages.tex}
+
+\input{config/variables.tex}
+
+\input{config/config.tex}
+
+\input{config/commands.tex}
+
+\input{config/hyphenation.tex}
+
+%% For version 2 of Acronyms
+%\input{content/acronymsV2.tex}
+\begin{document}
+\pagestyle{empty}
+\pagenumbering{roman}
+%----------------------------- TITLE PAGE -------------------------------------
+% Grundsaetzlich bitte Vorgaben der jeweiligen Pruefungsordnungen beachten
+\input{config/titlepage.tex} % detailliertes Deckblatt
+
+%-------------------------- END OF TITLE PAGE ---------------------------------
+\microtypesetup{protrusion=false}
+\pagestyle{plain} 
+\input{content/Abstract.tex} 
+
+% optional: ACKNOWLEDGEMENT
+%\input{content/acknowledgement.tex}
+
+% -------------------------- TABLE OF CONTENTS --------------------------------
+\cleardoublepage
+\pdfbookmark{\contentsname}{toc} % Adds content to the internal content list of the pdf
+\tableofcontents
+
+% -------------------------- ACRONYMS & NOMENCLATURE --------------------------
+% Two versions for acronyms are provided:
+% Version 1: A simple one using Acronyms.tex and Nomenclature.tex
+% Version 2: A more complicated one with better support for more hyperlinks using acronymsV2.tex
+
+% Version 1
+\include{content/Acronyms}
+\include{content/Nomenclature}
+
+%% Version 2
+%\printnomenclature  
+
+% ----------------------------- Prepare for Content  --------------------------
+\microtypesetup{protrusion=true}
+\cleardoublepage
+\pagenumbering{arabic}
+\pagestyle{scrheadings} 
+% ---------------------------- CONTENT ----------------------------------------
+\include{content/Chapter010-Intro}
+\include{content/Chapter020-Changes}
+\include{content/Chapter030-Recommendations}
+\include{content/Chapter040-Examples}
+ 
+% ---------------------------- APPENDIX ---------------------------------------
+\newpage
+\appendix
+\include{content/ChapterA-Appendix}
+
+
+%--------------------------- Lists --------------------------------------------
+
+% LISTS
+\listoffigures
+\listoftables
+
+%\begin{minipage}{\textwidth}
+%\lstlistoflistings
+%\end{minipage}
+
+
+% -------------------------- Literaturliste -----------------------------------
+\newpage
+\bibliographystyle{bib/bmc-des} % Style BST file (bmc-mathphys)
+%\bibliographystyle{alpha}
+%\bibliographystyle{abbrvdin}
+\bibliography{bib/Literature.bib}
+
+% -------------------------- Todos --------------------------------------------
+\listoftodos
+
+% -------------------------- STATEMENT ----------------------------------------
+\newpage
+\input{content/Statement.tex}
+
+\end{document}

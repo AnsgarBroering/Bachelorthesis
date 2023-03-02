@@ -1,0 +1,102 @@
+%Pakete für Seitenformat
+\usepackage[automark]{scrlayer-scrpage}
+%\usepackage{scrlayer-scrpage}
+
+% For colors
+\usepackage[dvipsnames]{xcolor}
+
+% Paket zum Platzieren von Hintergrundgrafiken (fuer Uni-Logo auf Deckblat verwendet)
+\usepackage{eso-pic}
+\newcommand\AtPageUpperRight[1]{\AtPageUpperLeft{\makebox[\paperwidth][r]{#1}}}
+
+%Pakete für Schriften
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%Paket für das Euro-Zeichen
+\usepackage{eurosym}
+
+%Pakete für Sprache
+\usepackage[english,ngerman]{babel} %Using main= does not work with hyperref (autoref). Please set the main language by writing it last in [].
+
+%Pakete für Listings
+\usepackage{listings}
+\usepackage{scrhack}		% to remove warning from srcreprt
+
+%Pakete für Grafiken
+\usepackage[pdftex]{graphicx}
+\usepackage{pdflscape} % pdf-Grafiken quer auf eine Seite
+\usepackage{caption}
+%\usepackage{subcaption}
+\usepackage{subfig} % Grafiken mit mehreren Abbildungen
+
+%Pakete fuer Tabellen
+\usepackage{tabularx}
+
+%Mathematik-Pakete
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{cancel}
+
+%Anklickbares Verzeichnis für PDF
+\usepackage{hyperref}
+
+%Akronyme
+\usepackage{acronym}
+
+%Pakete für die Bibliographie
+\usepackage{bibgerm}
+\usepackage{url}
+\usepackage{float}
+\usepackage{floatflt}
+\usepackage{array}
+\usepackage{fancybox}
+\usepackage{framed}
+\usepackage{wasysym}
+\usepackage{pifont}
+\def\UrlBreaks{\do\/\do-}
+
+%Pakete zum Auskommentieren
+\usepackage{afterpage}
+
+% Paket fuer Ueberschriften in Tabellen
+\usepackage{makecell}
+\renewcommand\theadalign{cc} % t,c,b and l,c,r for top, center, bottom and left, center and right
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
+
+% Paket für Todo's
+\usepackage[colorinlistoftodos]{todonotes} 
+%\usepackage[colorinlistoftodos, disable]{todonotes}% ich glaube ausschalten mit: disable
+
+% For lists
+\usepackage{enumitem} %% To change the position of items
+
+% For headings etc:
+% classicthesis & arsclassica
+\usepackage{scrtime}
+\usepackage{textcase}
+
+% For nomenclature
+\usepackage[intoc, german, noprefix]{nomencl}
+
+% For import of pdf_tex
+\usepackage{import}
+
+% For long tables on multiple pages:
+\usepackage{longtable}
+
+% Tabelle centering
+\usepackage{tabulary}
+
+% Package to better adjust page margins
+\usepackage{geometry}
+
+% Package necessary for Cref definition
+\usepackage[nameinlink]{cleveref}
+
+% for vanishing the error of scalable font
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}

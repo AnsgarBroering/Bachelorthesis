@@ -1,0 +1,40 @@
+\chapter{changes to be made}
+\label{chap:changes}
+
+This chapter introduces variables you should change to use this template.
+For this purpose, \autoref{sec:necessary_changes} first describes the mandatory parameters.  After that, \autoref{sec:optional_changes} deals with some settings that you may changes to according to your own preference.
+
+\section{Mandatory Parameters}
+\label{sec:necessary_changes}
+
+This section contains the aspects which you definitely need change, please read it thoroughly.
+
+\subsection{variables.tex}
+In \textit{config/variables.tex} many important parameters can be adjusted for your work, including:
+\begin{itemize}
+	\item title
+	\item author (including birthplace and birthday)
+	\item second examiner
+	\item type of thesis
+	\item keywords of the thesis
+\end{itemize}
+It makes sense to adjust everything accordingly.
+
+\subsection{language}
+If your thesis is not written in German, it is worth changing the language. This can be done in \textit{config/packages.tex}. There the main language should be passed as the last argument for the package \textit{Babel}.
+The titles of the sections (incl. table of contents, table of figures etc.), graphics and tables as well as the title page and the explanation at the end will change the language. (At least for German and English this should work).
+
+
+\section{Optional Changes}
+\label{sec:optional_changes}
+This section introduces more advanced settings that you can change if needed.
+
+\subsection{Customize the color of the links}
+The color of the links can be changed in the \textit{config/config.tex} file. Here \textit{linkcolor} is defined as the color of all links in the PDF.
+For printing this can be changed to the color 'black'.
+
+\subsection{Changing the bibliography}
+You can change the style of the bibliography. For this you can change the \textit{bibliographystyle} in \textit{main.tex}. A few suggestions are already stored there.
+
+\subsection{Change to single page printing}
+In the \textit{main.tex} at the beginning you can change \textit{twoside} to \textit{false} to create a one-sided output.

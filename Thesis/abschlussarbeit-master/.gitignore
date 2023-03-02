@@ -1,0 +1,29 @@
+# LaTeX temporary files
+*.aux
+*.log
+*.lof
+*.lot
+*.toc
+*.nlo
+*.md5
+*.figlist
+*.makefile
+*.tdo
+*.nlg
+*.nls
+
+# Latexmk
+*.fdb_latexmk
+
+# SyncTeX
+*.synctex.gz
+
+# LaTeX Beamer
+*.snm
+*.vrb
+*.nav
+*.out
+
+# BibTeX
+*.bbl
+*.blg

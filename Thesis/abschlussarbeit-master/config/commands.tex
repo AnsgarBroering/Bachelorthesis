@@ -1,0 +1,144 @@
+% deactivate citep
+%\newcommand{\citep}[1]{\cite{#1}}
+% Text rot/gruen faerben
+\newcommand{\red}[1]{\textcolor{red}{\textbf{#1}}}
+\newcommand{\recheck}[1]{ \colorbox{green}{\textbf{#1}} }
+% Verkürzen des Kommandos für tiefgestellten Text
+\newcommand{\tsub}[1]{\textsubscript{#1}}
+% Anführungszeichen oben und unten
+\newcommand{\gqq}[1]{\glqq #1\grqq}
+% Exponentialfunktion mit e
+\newcommand{\ex}{{\textrm e}} 
+
+% Definition TODOs:
+\newcommand{\todoAsk}[2][]{\todo[color=yellow!50,#1]{\textcolor{red}{Ask for:} #2}}
+\newcommand{\todoFormulate}[2][]{\todo[color=lightgray,#1]{\textcolor{red}{Formulate:} #2}}
+
+% missing [...]
+\newcommand{\missing}{ \colorbox{red}{\textbf{...}} }
+
+
+\newcommand{\items}[1]{
+	~\vspace{0.2cm}\\
+	\framebox[\textwidth]{
+		\begin{tabular}{m{1.2cm}m{14cm}}
+			\includegraphics[height=1cm]{Pics/gp.jpg} &
+			\begin{itemize}#1\end{itemize}
+		\end{tabular}
+	}
+	~\vspace{0.2cm}\\
+}
+
+% Abbildungen
+%\newcommand{\image}[2]{
+%	\begin{figure}[h]
+%		\begin{center}
+%			\includegraphics{Pics/#1}
+%			\caption{#2}
+%		\end{center}
+%	\end{figure}
+%}
+
+\newcommand{\image}[2]{
+	\begin{figure}[h]
+		\begin{center}
+			\includegraphics{Pics/#1}
+			\vspace{-0.2cm}
+			\caption{#2}
+		\end{center}
+	\end{figure}
+}
+
+\newcommand{\imagewithtext}[3]{
+	\begin{figure}[h]
+		\begin{center}
+			\includegraphics{Pics/#1}
+			\caption{#2}
+			~\\
+			#3
+		\end{center}
+	\end{figure}
+}
+
+\newcommand{\fullsizeimage}[2]{
+	\begin{figure}[h]
+		\begin{center}
+			\includegraphics[width=\textwidth]{Pics/#1}
+			\caption{#2}
+		\end{center}
+	\end{figure}
+}
+
+
+
+%Workaround für \lstlistoflistings
+\makeatletter
+\@ifundefined{float@listhead}{}{%
+    \renewcommand*{\lstlistoflistings}{%
+        \begingroup
+    	    \if@twocolumn
+                \@restonecoltrue\onecolumn
+            \else
+                \@restonecolfalse
+            \fi
+            \float@listhead{\lstlistlistingname}%
+            \setlength{\parskip}{\z@}%
+            \setlength{\parindent}{\z@}%
+            \setlength{\parfillskip}{\z@ \@plus 1fil}%
+            \@starttoc{lol}%
+            \if@restonecol\twocolumn\fi
+        \endgroup
+    }%
+}
+\makeatother
+
+%\let\oldlstlisting=\lstlisting
+%\def\lstlisting{\vspace{-0.5cm}\oldlstlisting}
+
+% Funktion to get doi as link when using bmc-mathphys.bst
+\newcommand*{\doiurl}[1]{\href{http://doi.org/#1}{\detokenize{#1}}}
+
+%Redefine some autorefs:
+\addto\extrasenglish{
+	\renewcommand{\subsectionautorefname}{section}
+}
+
+%Set figure to be lower case for autoref
+\addto\extrasenglish{%
+	\renewcommand{\figureautorefname}{figure}%
+}
+\addto\extrasenglish{%
+	\renewcommand{\tableautorefname}{table}%
+}
+
+
+%For fancy nomenclature
+\makenomenclature
+% Mehrere nomencl-Abschnitte:
+% http://www.mrunix.de/forums/showpost.php?p=210422&postcount=29
+\renewcommand{\nomname}{Abbreviations}
+\renewcommand{\nompreamble}{\markboth{\nomname}{\nomname}}
+\renewcommand{\nomlabelwidth}{2.5cm}
+\newcommand{\nomaltname}{Nomenclature}
+\newcommand{\nomaltpreamble}{\markboth{\nomaltname}{\nomaltname}}
+\newcommand{\nomaltpostamble}{}
+\newcommand{\switchnomitem}{S}
+\renewcommand{\nomgroup}[1]{%
+	\ifthenelse{\equal{#1}{\switchnomitem}}{\switchnomalt}{}}
+\newcommand{\switchnomalt}{%
+\end{thenomenclature}
+\renewcommand{\nomname}{\nomaltname}
+\renewcommand{\nompreamble}{\nomaltpreamble}
+\renewcommand{\nompostamble}{\nomaltpostamble}
+\begin{thenomenclature}
+}
+
+\recalctypearea % Satzspiegel neu berechnen (damit Seitenraender eingestellt werden)
+
+% -- eigene Variablen, z.B. fuer Gleichungen
+
+% Laenge des Hochlastzeitfensters
+\newcommand{\THLZ}{T^{\textrm{HLZ}}}
+% Vorladezeit
+\newcommand{\Tvorl}{T^{\textrm{vorl}}}
+
