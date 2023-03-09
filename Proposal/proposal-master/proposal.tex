@@ -1,0 +1,150 @@
+% Ganz einfaches Template für das Proposal von studentischen Arbeiten
+% von der Abteilung Digitalisierte Energiesysteme - 
+% Carl von Ossietzky Universität Oldenburg
+% Stand: 10.09.2020
+%
+\documentclass[a4paper, 11pt]{article}
+\input{config/config.tex}
+
+
+%% Variables
+\newcommand{\Titel}{Example title} % Titel der Arbeit
+\newcommand{\Author}{Example author} % Autor der Arbeit
+
+%
+\begin{document}
+% -----------------------------------------------------------------------------
+%               Titel
+% -----------------------------------------------------------------------------
+\Author \hfill \today\\
+\newline
+%
+\begin{center}
+	\iflanguage{ngerman}
+		{\large{Proposal zur Masterarbeit}}
+		{\large{Proposal for a master thesis}} \\
+  	\vspace*{0.5cm}
+  	\iflanguage{ngerman}
+  		{\Large{\bf "`\Titel{}"'}}
+  		{\Large{\bf ``\Titel{}''}}
+\end{center}
+%
+\setlength{\parskip}{1.5ex plus0.5ex minus 0.5ex}
+
+% -----------------------------------------------------------------------------
+%\section{Einleitung}
+\section{Introduction}% (one page)
+\label{introduction}
+The proposal should have a maximum length of five text pages (plus preliminary outline, schedule and literature). If it contains the "Forschungsseminar", it should be longer. It may also be less, if it contains everything necessary.
+The proposal should include the motivation for the topic as well as relevant sources \cite{Crastan2008}.
+If the following sections are to be referenced, this can be done with \cref{objective} or with \Cref{basics} depending on whether it should be written in upper or lower case (only relevant in English).
+
+
+% -----------------------------------------------------------------------------
+%\section{Zielsetzung}
+\section{Objective}
+\label{objective}
+What should be achieved? Elaboration of the research questions. 
+
+% -----------------------------------------------------------------------------
+%\section{Grundlagen}
+\section{Background}
+\label{basics}
+This section should present the basics that are relevant for working on the topic. Alternatively, the basics can be presented first and the objective can be derived from this.
+% -----------------------------------------------------------------------------
+%\section{Geplante Herangehensweise}
+\section{Approach}
+\label{approach}
+Own planned contribution to the achievement of the objective.
+
+% -----------------------------------------------------------------------------
+%\section{Vorläufige Gliederung}
+\section{Preliminary structure}
+\label{structure}
+This section should contain a draft of the chapter order and structure. Please also plan the number of pages for each chapter. This helps you to write a thesis with a normal size.
+\begin{enumerate}
+	\item Introduction (2)
+	\begin{enumerate}
+		\item Motivation
+		\item ...
+	\end{enumerate}
+\end{enumerate}
+
+% -----------------------------------------------------------------------------
+%\section {Zeit- und Arbeitsplan}
+\section {Time and work schedule}
+\label{schedule}
+You should also develop a time schedule for your planned approach. When planning your schedule, be sure to take into account other things that will take up your time during the thesis, such as lectures, exams, and extracurricular activities. Feel free to discuss this with your supervisor.
+\begin{figure}[h]
+	\centering
+	\def\pgfcalendarmonthshortgerman#1{%
+		\ifcase#1 Dez\or Jan\or Feb\or Mär\or Apr\or Mai\or Jun\or Jul\or Aug\or Sept\or Okt\or Nov\or Dez\fi%
+	}
+
+	\begin{ganttchart}[
+		title/.append style={fill=black!10},
+		x unit=1.8pt,
+		time slot format=isodate,
+		milestone/.append style={ultra thick}
+		]{2018-05-21}{2018-11-28}
+		\iflanguage{ngerman}
+			{\gantttitlecalendar{year, month=shortgerman}}
+			{\gantttitlecalendar{year, month=shortname}}
+		\\
+		\gantttitle{1}{7}
+		\gantttitle{2}{7}
+		\gantttitle{3}{7}
+		\gantttitle{4}{7}
+		\gantttitle{5}{7}
+		\gantttitle{6}{7}
+		\gantttitle{7}{7} 
+		\gantttitle{8}{7}
+		\gantttitle{9}{7}
+		\gantttitle{10}{7}
+		\gantttitle{11}{7}
+		\gantttitle{12}{7}
+		\gantttitle{13}{7}
+		\gantttitle{14}{7}
+		\gantttitle{15}{7}
+		\gantttitle{16}{7}
+		\gantttitle{17}{7}
+		\gantttitle{18}{7}
+		\gantttitle{19}{7}
+		\gantttitle{20}{7}
+		\gantttitle{21}{7}
+		\gantttitle{22}{7}
+		\gantttitle{23}{7}
+		\gantttitle{24}{7}
+		\gantttitle{25}{7}
+		\gantttitle{26}{7}
+		\gantttitle{27}{7}
+		\gantttitle{}{3}\\
+		\ganttmilestone{Registration of the thesis}{2018-05-21}\\
+		\ganttbar{1. step}{2018-06-1}{2018-07-1}\\
+		\ganttbar{2. step}{2018-07-1}{2018-09-1}\\
+		\ganttbar{...}{2018-08-15}{2018-10-31}\\
+		\ganttbar{Proofreading}{2018-11-1}{2018-11-19}\\
+		\ganttmilestone{Submission}{2018-11-19}\\
+		\ganttmilestone{Presentation}{2018-11-28}\\
+	\end{ganttchart}
+	\caption{\iflanguage{ngerman}{Zeitplan}{Time schedule}}
+\end{figure}
+\begin{itemize}
+	\item 21.05.2018: Registration of the thesis (please allow sufficient time for the proposal)
+	\item 01.07.2018: Completion step 1
+	\item 01.08.2018: Completion step 2
+	\item 01.09.2018: ...
+	\item 20.11.2018: Submission
+	\item 03.12.2018: Presentation
+\end{itemize}
+
+% -----------------------------------------------------------------------------
+%               Literaturliste
+% -----------------------------------------------------------------------------
+\newpage
+\bibliographystyle{bmc-des} % Style BST file (bmc-mathphys)
+%\bibliographystyle{alpha}
+%\bibliographystyle{abbrvdin}
+\addcontentsline{toc}{chapter}{Literatur}
+\bibliography{library}
+\end{document}
