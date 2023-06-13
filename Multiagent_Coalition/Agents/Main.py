@@ -1,4 +1,5 @@
-import asyncio
+from Datacollector import Datacollector
 
-class __main__:
-    input()
+if __name__ == "__main__":
+    datacollector = Datacollector()
+    datacollector.start()
