@@ -2,4 +2,5 @@ from Datacollector import Datacollector
 
 if __name__ == "__main__":
     datacollector = Datacollector()
-    datacollector.start()
+    coordinates = datacollector.start()
+    datacollector.show_graphics(coordinates)

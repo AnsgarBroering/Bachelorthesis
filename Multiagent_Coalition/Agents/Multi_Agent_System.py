@@ -66,3 +66,16 @@ class Multi_Agent_System:
         x1, y1 = coord1
         x2, y2 = coord2
         return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+
+    def show_graphics(self, result):
+        colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+        for cluster_id, cluster_coords in result.items():
+            x_coords = [coord[0] for coord in cluster_coords]
+            y_coords = [coord[1] for coord in cluster_coords]
+            plt.scatter(x_coords, y_coords, c=colors[cluster_id], label=f'Cluster {cluster_id}')
+
+        plt.xlabel('X-Koordinate')
+        plt.ylabel('Y-Koordinate')
+        plt.title('Generierte Cluster-Koordinaten')
+        plt.legend()
+        plt.show()
