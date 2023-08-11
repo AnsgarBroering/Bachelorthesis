@@ -6,8 +6,9 @@ def divide_into_groups(coordinates, group_size):
     return groups
 
 # Beispielaufruf
-coordinates = [(1, 1), (1, 2), (2, 1), (7, 8), (9, 13), (11, 12), (13, 14), (15, 12), (17, 18), (19, 20)]
-group_size = 3
+coordinates = [(1, 1), (15, 2), (2, 11), (17, 8), (9, 13), (11, 5), (13, 14), (15, 12), (17, 18), (19, 20), (3, 6), (5, 2)]
+random.shuffle(coordinates)
+group_size = 5
 
 groups = divide_into_groups(coordinates, group_size)
 
@@ -22,5 +23,5 @@ for i, group in enumerate(groups):
 
 plt.xlabel('X-Koordinate')
 plt.ylabel('Y-Koordinate')
-plt.title('Punkte und Verbindungen in unterschiedlichen Farben')
+plt.title('Beispiel einer Koalitionensstruktur')
 plt.show()

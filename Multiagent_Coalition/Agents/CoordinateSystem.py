@@ -9,6 +9,8 @@ class CoordinateSystem:
     coordinates = []
     power_means_clusters = {}             # Saves generated power means for clusters in kW/h
     power_generation_wind_turbines = {}   # Saves the generated power values for each coordinate in kW/h
+    power_average = 750
+    RATED_CAPACITY = 3000
 
     def generate_clusters(self,
                           x_range,
@@ -31,7 +33,7 @@ class CoordinateSystem:
             new_cluster_coordinate = (x, y)
             if all(self.euclidean_distance(new_cluster_coordinate, existing_coord) >= (medium_cluster_radius*2) for existing_coord in cluster_centers):
                 cluster_centers.append(new_cluster_coordinate)
-                self.power_means_clusters.update({new_cluster_coordinate: float((random.gauss(0.5, 0.12) ** 2) * 2500)})
+                self.power_means_clusters.update({new_cluster_coordinate: float((random.gauss(0.5, 0.12) ** 2) * self.RATED_CAPACITY)})
 
         # Counts the number of coordinates for each cluster
         clusters = {}
@@ -52,6 +54,8 @@ class CoordinateSystem:
                 self.power_generation_wind_turbines.update({new_coord: self.calculate_power_value(cluster_center)})
                 clusters[cluster_center] = clusters[cluster_center]+1
 
+
+
         print(clusters)
         return
 
@@ -64,7 +68,7 @@ class CoordinateSystem:
     def calculate_power_value(self, cluster):
         power_value = self.power_means_clusters.get(cluster) * random.gauss(1, 0.1)
         # If the turbine generates more than 2500 it's turned off because of too much wind force
-        if power_value < 0 or power_value > 2500:
+        if power_value < 0 or power_value > self.RATED_CAPACITY:
             power_value = 0
         return power_value
 

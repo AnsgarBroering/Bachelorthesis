@@ -24,26 +24,26 @@ class Datacollector:
             self.min_size_cluster = 2
             self.max_size_cluster = 5
             self.min_distance_turbines = 0.2
-            self.min_distance_clusters = 2
+            self.starting_coalition_value = 2
 
         else:
-            while self.x_range <= 0:
+            while self.x_range < 1:
                 try:
                     self.x_range = float(input(f"Length of x in the coordinate system in km: "))
                 except:
-                    print(f"You need to enter a number greater than 0.")
+                    print(f"You need to enter a number greater than 1.")
 
-            while self.y_range <= 0:
+            while self.y_range < 1:
                 try:
                     self.y_range = float(input(f"Length of y in the coordinate system in km: "))
                 except:
-                    print(f"You need to enter a number greater than 0.")
+                    print(f"You need to enter a number greater than 1.")
 
             while self.number_wind_turbines < 2:
                 try:
                     self.number_wind_turbines = int(input(f"Amount of wind turbines: "))
                     if self.number_wind_turbines < 2:
-                        print(f"Amount of wind turbines must be more than 1: ")
+                        self.number_wind_turbines = int(input(f"Amount of wind turbines must be more than 1: "))
                 except:
                     print(f"You need to enter a number greater than 0.")
 
@@ -61,7 +61,7 @@ class Datacollector:
                 except:
                     print(f"You need to enter a number greater than 0.")
 
-            while self.min_size_cluster <= 0:
+            while self.min_size_cluster <= 0 and self.min_size_cluster * self.number_clusters > self.number_wind_turbines:
                 try:
                     self.min_size_cluster = int(input(f"Minimal size of clusters: "))
                     if self.min_size_cluster <= 0:
@@ -69,11 +69,11 @@ class Datacollector:
                 except:
                     print(f"You need to enter a number greater than 0.")
 
-            while self.max_size_cluster <= 0 or self.max_size_cluster < int(self.number_wind_turbines / self.number_clusters) + 1:
+            while self.max_size_cluster <= 0 or self.max_size_cluster < math.ceil(self.number_wind_turbines / self.number_clusters):
                 try:
                     self.max_size_cluster = int(input(f"Maximal size of clusters: "))
                     if self.max_size_cluster < int(math.ceil(self.number_wind_turbines / self.number_clusters)):
-                        self.max_size_cluster = int(input(f"The cluster size must be greater than {int(self.number_wind_turbines / self.number_clusters)}: "))
+                        self.max_size_cluster = int(input(f"The cluster size must be greater than {math.ceil(self.number_wind_turbines / self.number_clusters)}: "))
                 except:
                     print(f"You need to enter a number greater than 0.")
 
@@ -86,6 +86,12 @@ class Datacollector:
             while self.min_distance_clusters <= 0:
                 try:
                     self.min_distance_clusters = float(input(f"Minimal distance of clusters: "))
+                except:
+                    print(f"You need to enter a number greater than 0.")
+
+            while self.starting_coalition_value <= 0:
+                try:
+                    self.starting_coalition_value = float(input(f"The Koalition value the agents should start with: "))
                 except:
                     print(f"You need to enter a number greater than 0.")
 

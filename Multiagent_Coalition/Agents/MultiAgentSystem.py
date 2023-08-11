@@ -12,12 +12,12 @@ class MultiAgentSystem:
     REQUEST_COUNT = 5
     CONTAINER_ADDRESS = ("localhost", 5555)
 
-    """
-    To create the agents which control the wind turbines the coordinates of the wind turbines and their generated
-    power is needed. First a container gets created and then all agents. All agents also get the information of their
-    neighbors.
-    """
-    async def create_container_with_agents(self, coordinates, power_generation):
+
+    async def create_container_with_agents(self, coordinates, power_generation, starting_coalition_value):
+        """
+        To create the agents which control the wind turbine. The coordinates and their generated power is needed. First
+        a container gets created and then all agents. All agents also get the information of their neighbors.
+        """
 
         clock = AsyncioClock()
         self._container = await create_container(addr=self.CONTAINER_ADDRESS, clock=clock)
@@ -25,13 +25,12 @@ class MultiAgentSystem:
             self.agents.append(WindTurbineAgent(self._container,
                                                 self.CONTAINER_ADDRESS,
                                                 i,
-                                                power_generation.get(i)
+                                                power_generation.get(i),
+                                                starting_coalition_value
                                                 ))
 
         for i, agent in enumerate(self.agents):
             agent.set_available_agents(self.agents)
-
-        await asyncio.sleep(1)
 
         if input(f"Do you want to start the simulation with this dataset? (y/n): ") == 'y':
             await self.start_simulation()
@@ -44,7 +43,7 @@ class MultiAgentSystem:
         random.shuffle(shuffled_agents)
         for i, agent in enumerate(shuffled_agents):
             await agent.initiate_requests(self.REQUEST_COUNT, i)
-        await asyncio.sleep(1)
+        await asyncio.sleep(30)
         return
 
     async def plot_coalitions(self):

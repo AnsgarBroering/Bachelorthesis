@@ -24,5 +24,8 @@ if __name__ == "__main__":
 
     if input(f"Do you want to create the multi agent system? (y/n): ") == "y":
         agent_system = MultiAgentSystem()
-        asyncio.run(agent_system.create_container_with_agents(coordinate_system.coordinates, coordinate_system.power_generation_wind_turbines))
+        asyncio.run(agent_system.create_container_with_agents(coordinate_system.coordinates,
+                                                              coordinate_system.power_generation_wind_turbines,
+                                                              datacollector.starting_coalition_value
+                                                              ))
         # ToDo: Start simulation

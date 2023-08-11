@@ -1,4 +1,5 @@
 import asyncio
+import numpy as np
 from mango import Agent
 from mango.messages.message import Performatives
 from mango.util.scheduling import InstantScheduledProcessTask
@@ -11,25 +12,27 @@ class WindTurbineAgent(Agent):
 
     _container = 0
     _container_address = []
-    _location_coordinate = [0, 0]
-    _expected_power_generation = 0
-    _current_coalition_value = 0
-    _current_coalition_agents = []
+    location_coordinate = [0, 0]
+    expected_power_generation = 0
+    _current_coalition_value = 0    # the current coalition value ready to 
+    _current_coalition_agents = []  # current agents in coalition with this agent
     _neighbor_agents = []           # classes of all neighboring agents
     _available_agents = {}          # agent id and their availability
     _depleted_request_pool = False
     _is_done = False
     request_count = 0
-    DISTANCE_WEIGHT = 0.7
-    POWER_WEIGHT = 0.3
-    RATED_CAPACITY = 2500
+    POWER_AMPLITUDE = 0.2
+    POWER_FUNCTION_HEIGHT = 0.5
+    POWER_FUNCTION_MU = 0.3
+    POWER_FUNCTION_SIGMA = 0.1
 
-    def __init__(self, container, address, coordinate, power):
+    def __init__(self, container, address, coordinate, power, starting_coalition_value):
         super().__init__(container)
         self._container = container
         self._container_address = address
-        self._location_coordinate = coordinate
-        self._expected_power_generation = power
+        self.location_coordinate = coordinate
+        self.expected_power_generation = power
+        self._current_coalition_value = starting_coalition_value
         self._current_coalition_agents.append(self.aid)
         print(f"My id is {self.aid}.")
 
@@ -45,20 +48,33 @@ class WindTurbineAgent(Agent):
         # If any agent is available a message is sent to it
         if available_agents:
             request_receiver = random.choice(available_agents)
-            print(f"{self.aid} started sending a message.")
-            message_content = RequestMessage(self.aid, self._location_coordinate, self._expected_power_generation)
-            await self.send_message(message_content, self._container_address, request_receiver)
-            await asyncio.sleep(10)
+            print(f"{self.aid} started sending a message to {request_receiver} at {self._container_address}.")
+            message_content = RequestMessage(self.aid, self.location_coordinate, self.expected_power_generation)
+
+            acl_meta = {"sender_addr": self._context.addr, "sender_id": self.aid,
+                        "performative": Performatives.inform}
+            self.schedule_instant_task(
+                self._context.send_acl_message(
+                    content=message_content,
+                    receiver_addr=self._container_address,
+                    receiver_id=request_receiver,
+                    acl_metadata=acl_meta,
+                )
+
+            )
+            # await self.send_message(message_content, self._container_address, request_receiver)
+
         else:
             self._depleted_request_pool = True
         return
 
-
     async def handle_message(self, content, meta):
         """
-        When a message is received it gets handled here. It can be a
+        When a message is received it gets handled here. The content can be of the following types:
+        RequestMessage, AdmissionMessage, RefusalMessage
         """
-        print(f"{self.aid} has received a message.")
+
+        print(f"{self.aid} has received a message from {meta}.")
         if isinstance(content, RequestMessage):
             if not self._available_agents.get(content.agent_id):
                 message_content = RefusalMessage(content.agent_id, self._current_coalition_agents)
@@ -102,7 +118,6 @@ class WindTurbineAgent(Agent):
                             print(f"{self.aid} is done searching.")
             return
 
-
         else:
             print(f"{self.aid}: The message with the content {content} has a wrong type.")
         return
@@ -110,16 +125,23 @@ class WindTurbineAgent(Agent):
     def calculate_coalition_value(self, foreign_coordinate, foreign_power):
 
         coalition_agent_distances = []
+        neighborhood_agent_power_outputs = 0
 
-        for i in self._current_coalition_agents:
+        for i, agent in enumerate(self._current_coalition_agents):
             coalition_agent_distances.append(self._current_coalition_agents[i].location_coordinate)
+            neighborhood_agent_power_outputs = neighborhood_agent_power_outputs + agent.expected_power_generation
         coalition_agent_distances.append(foreign_coordinate)
 
         distance_value = self.euclidean_coalition_distance(coalition_agent_distances)
 
-        power_value = foreign_power / self.RATED_CAPACITY
+        power_value = self.calculate_power_value(neighborhood_agent_power_outputs / len(neighborhood_agent_power_outputs))
 
-        return distance_value * self.DISTANCE_WEIGHT + power_value * self.POWER_WEIGHT
+        return distance_value * power_value
+
+    def calculate_power_value(self, power_output):
+        return (1 / (self.POWER_FUNCTION_SIGMA * np.sqrt(2 * np.pi))
+                * np.exp(-0.5 * ((power_output - self.POWER_FUNCTION_MU) / self.POWER_FUNCTION_SIGMA) ** 2))\
+                * self.POWER_AMPLITUDE + self.POWER_FUNCTION_HEIGHT
 
     def euclidean_coalition_distance(self, coalition_coordinates):
         sum_distances = 0
