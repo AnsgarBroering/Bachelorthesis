@@ -9,22 +9,26 @@ import random
 from CodecMessages import RequestMessage, AdmissionMessage, RefusalMessage
 
 class WindTurbineAgent(Agent):
+    """
+    This class is an instance of the Agent class. This is the only Agent class in this program. All agents have the
+    same role.
+    """
 
-    _container = 0
-    _container_address = []
-    location_coordinate = [0, 0]
-    expected_power_generation = 0
-    _current_coalition_value = 0    # the current coalition value ready to 
+    _container = 0                  # the container of the agent
+    _container_address = []         # the container address of this container
+    location_coordinate = [0, 0]    # the position of the agent (wind turbine) as coordinate
+    expected_power_generation = 0   # the expected power generation for the next time period
+    _current_coalition_value = 0    # the current coalition value ready to
     _current_coalition_agents = []  # current agents in coalition with this agent
     _neighbor_agents = []           # classes of all neighboring agents
     _available_agents = {}          # agent id and their availability
-    _depleted_request_pool = False
-    _is_done = False
-    request_count = 0
-    POWER_AMPLITUDE = 0.2
-    POWER_FUNCTION_HEIGHT = 0.5
-    POWER_FUNCTION_MU = 0.3
-    POWER_FUNCTION_SIGMA = 0.1
+    _depleted_request_pool = False  # is all available agents are used up this goes "True"
+    _is_done = False                # is "True" when in at least one coalition
+    request_count = 0               # this is the maximal amount of requests before the agent stops requesting
+    POWER_AMPLITUDE = 0.2           # the height of the biggest spike of the power value function
+    POWER_FUNCTION_HEIGHT = 0.5     # here the function hits the y-axis of the power value function
+    POWER_FUNCTION_MU = 0.3         # the biggest spike of the power value function is at this x-axis
+    POWER_FUNCTION_SIGMA = 0.1      # the standard deviation of the power value function
 
     def __init__(self, container, address, coordinate, power, starting_coalition_value):
         super().__init__(container)
@@ -43,6 +47,10 @@ class WindTurbineAgent(Agent):
         return
 
     async def start_requests(self):
+        """
+        With this method the requests are started by MultiAgentSystem.
+        """
+
         # Checks if any agents are still available
         available_agents = [key for key, value in self._available_agents.items() if value]
         # If any agent is available a message is sent to it
@@ -106,7 +114,6 @@ class WindTurbineAgent(Agent):
             print(f"{self.aid} is done searching.")
             return
 
-        # ToDo: Currently all coalition agents are set on FALSE
         elif isinstance(content, RefusalMessage):
             if self.aid == content.agent_id:
                 for i, agent in enumerate(content.refused_agents):
@@ -123,27 +130,44 @@ class WindTurbineAgent(Agent):
         return
 
     def calculate_coalition_value(self, foreign_coordinate, foreign_power):
+        """
+        Calculates the coalition value of the possibly new coalition to compare it to the current value.
+        :param foreign_coordinate: The coordinate of the requesting agent.
+        :param foreign_power: The power generation of the requesting agent.
+        :return: Returns the new coalition value.
+        """
 
         coalition_agent_distances = []
-        neighborhood_agent_power_outputs = 0
+        coalition_agent_power_outputs = 0
 
         for i, agent in enumerate(self._current_coalition_agents):
             coalition_agent_distances.append(self._current_coalition_agents[i].location_coordinate)
-            neighborhood_agent_power_outputs = neighborhood_agent_power_outputs + agent.expected_power_generation
+            coalition_agent_power_outputs = coalition_agent_power_outputs + agent.expected_power_generation
         coalition_agent_distances.append(foreign_coordinate)
+        coalition_agent_power_outputs.append(foreign_power)
 
         distance_value = self.euclidean_coalition_distance(coalition_agent_distances)
 
-        power_value = self.calculate_power_value(neighborhood_agent_power_outputs / len(neighborhood_agent_power_outputs))
+        power_value = self.calculate_power_value(coalition_agent_power_outputs / len(coalition_agent_power_outputs))
 
         return distance_value * power_value
 
     def calculate_power_value(self, power_output):
+        """
+        This is a Gauss deviation function to incentivise that low and high power generating wind turbines come together
+        :param power_output: The expected power output of the coalition in a ratio to 3000 kW
+        :return: Returns the new power value
+        """
         return (1 / (self.POWER_FUNCTION_SIGMA * np.sqrt(2 * np.pi))
                 * np.exp(-0.5 * ((power_output - self.POWER_FUNCTION_MU) / self.POWER_FUNCTION_SIGMA) ** 2))\
                 * self.POWER_AMPLITUDE + self.POWER_FUNCTION_HEIGHT
 
     def euclidean_coalition_distance(self, coalition_coordinates):
+        """
+        Calculates the average distance of all coordinates in this coalition
+        :param coalition_coordinates: These are all coordinates of a coalition in tuples
+        :return: Returns the average distance
+        """
         sum_distances = 0
 
         # Adds all weights (distances) of the edges in a coalition graph
@@ -162,8 +186,11 @@ class WindTurbineAgent(Agent):
         return sum_distances / amount_edges
 
     def set_available_agents(self, agents):
+        """
+        Setter method to update all available agents. Converts the agents class into the agent_id String.
+        :param agents: Sets these agents.
+        """
         self._neighbor_agents = agents
         for i, agent in enumerate(agents):
             self._available_agents.update({agent.aid: True})
         self._available_agents.update({self.aid: False})
-        return

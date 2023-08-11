@@ -1,19 +1,10 @@
 from dataclasses import dataclass
 
-"""
-@dataclass
-class InitiateMessage:
-
-    request_count: int
-    delay_in_seconds: float
-
-    def __init__(self, request_count, delay_in_seconds):
-        self.request_count = request_count
-        self.delay_in_seconds = delay_in_seconds
-"""
-
 @dataclass
 class RequestMessage:
+    """
+    An agent sends a request to join a coalition.
+    """
 
     agent_id: str
     coordinate: []
@@ -26,6 +17,10 @@ class RequestMessage:
 
 @dataclass
 class AdmissionMessage:
+    """
+    An agent which is allowed to join the coalition gets an admission message.
+    All agents in the coalition gets updated.
+    """
     agent_id: str
     coalition_value: float
 
@@ -35,6 +30,11 @@ class AdmissionMessage:
 
 @dataclass
 class RefusalMessage:
+    """
+    An agent which isn't allowed to join the coalition gets a refusal message.
+    All agents in the coalition also get the information of the refused agent.
+    """
+
     agent_id: str
     refused_agents: []
 
@@ -44,7 +44,6 @@ class RefusalMessage:
 
 @dataclass
 class EvaluationMessage:
-
     """
     This message is send to one agent who evaluates all incoming data
     """
